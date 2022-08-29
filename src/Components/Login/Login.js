@@ -1,7 +1,38 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import { authUser } from "../../action/actUser";
+import { useForm } from "../../hooks/useForm";
 
 const Login = () => {
+  const [formValues, handleFormValues] = useForm({
+    username: "",
+    password: ""
+  });
+  const HandleSubmit = async (event) => {
+    event.preventDefault();
+    await authUser(formValues).then((response) => {
+      if (response.status != 200) {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Usuario y/o contraseña Incorrecta",
+          timer: 1300,
+          showConfirmButton: false
+        })
+      } else {
+        //Aquí tendría el token y debo guardarlo en Redux o en el localStorage
+        const token = response.data.token
+        //---------------------------------------------------------------------
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Bienvenido",
+          timer: 1000,
+          showConfirmButton: false
+        })
+      }
+    });
+  }
   return (
     <>
       <div className="flex justify-center items-center h-screen bg-black text-white">
@@ -10,7 +41,7 @@ const Login = () => {
             <h1>Login</h1>
           </div>
           <div className="flex text-2xl text-center my-5 ">
-            <form action="#">
+            <form onSubmit={HandleSubmit}>
               <div className="flex flex-col items-center space-y-5">
                 <label htmlFor="username">Username</label>
                 <input
@@ -19,6 +50,8 @@ const Login = () => {
                   placeholder="username..."
                   type="text"
                   name="username"
+                  required
+                  onChange={handleFormValues}
                 />
                 <label htmlFor="password">Password</label>
                 <input
@@ -28,17 +61,17 @@ const Login = () => {
                   type="password"
                   name="password"
                   autoComplete="on"
+                  required
+                  onChange={handleFormValues}
                 />
               </div>
               <div className="pt-10">
-                <Link to="home">
-                  <button
-                    type="button"
-                    className="bg-purple-700 rounded-full hover:bg-blue-600 w-60 h-auto"
-                  >
-                    Login
-                  </button>
-                </Link>
+                <button
+                  type="submit"
+                  className="bg-purple-700 rounded-full hover:bg-blue-600 w-60 h-auto"
+                >
+                  Login
+                </button>
               </div>
             </form>
           </div>

@@ -10,9 +10,9 @@ const Form = ({ handleClose }) => {
     repetitions: "",
     note: ""
   })
-  const handleSubmit = async( event ) => {
+  const handleSubmit = async( event ) => {    
     event.preventDefault();
-    await addNote("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MWY3MTUyMDU4YjA2MzEwYjg0OGFkN2IiLCJpYXQiOjE2NjE2NTA5ODQsImV4cCI6MTY2MTY2NTM4NH0.ts5Ss6l30_3vRui_AlJpFB98bRuiAzjd23hwDa3kH0I", formValues).then(() => console.log('Si jaló'))
+    await addNote("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MWY3MTUyMDU4YjA2MzEwYjg0OGFkN2IiLCJpYXQiOjE2NjE4MTM4NjksImV4cCI6MTY2MTgyODI2OX0.QRYhcEAhF0u7ZHa4UJf62MqGXAHfLqg2_Iu1qQV1BzE", formValues).then(() => console.log('Si jaló'))
   }
   return (
     <>
@@ -121,7 +121,6 @@ const Form = ({ handleClose }) => {
                 <button
                   type="submit"
                   className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-
                 >
                   Guardar
                 </button>

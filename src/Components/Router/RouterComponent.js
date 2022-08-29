@@ -10,7 +10,7 @@ const RouterComponent = () => {
 				<Route path="/login" element={ <Login /> }></Route>
 				<Route path="home" element={ <Home /> }> </Route>
 				<Route path="exercise" element={ <Exercises /> }> </Route> 				
-				<Route path="*" element={ <Navigate replace={true} to={"/home"}/>}></Route>
+				<Route path="*" element={ <Navigate replace={true} to={"/login"}/>}></Route>
 			</Routes>
 		</BrowserRouter>
 	);

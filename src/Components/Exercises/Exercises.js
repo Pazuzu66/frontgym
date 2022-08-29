@@ -10,7 +10,7 @@ const Exercises = () => {
   const [notes, setNotes] = useState(null);    
   useEffect(() => {
     getNotes(
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MWY3MTUyMDU4YjA2MzEwYjg0OGFkN2IiLCJpYXQiOjE2NjE2NTA5ODQsImV4cCI6MTY2MTY2NTM4NH0.ts5Ss6l30_3vRui_AlJpFB98bRuiAzjd23hwDa3kH0I").then((data) =>{
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MWY3MTUyMDU4YjA2MzEwYjg0OGFkN2IiLCJpYXQiOjE2NjE4MTM4NjksImV4cCI6MTY2MTgyODI2OX0.QRYhcEAhF0u7ZHa4UJf62MqGXAHfLqg2_Iu1qQV1BzE").then((data) =>{
         setNotes(data);        
       }
     )
@@ -26,6 +26,7 @@ const Exercises = () => {
   return (
     <>
       <div className="flex flex-col justify-center items-center p-3 text-white">
+        <Navbar/>
         <div className="flex flex-row">
           <h1 className="text-2xl font-mono">Ejercicios</h1>
         </div>
