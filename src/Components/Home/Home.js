@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../Navs/Navbar";
-const Home = () => {
-	return (
-		<>
-			<Navbar />
-			<div class="flex flex-row"></div>
-		</>
-	);
+import Exercises from "../Exercises/Exercises";
+const Home = () => {  
+  return (
+    <>
+    <div className="bg-black h-screen">
+      <Exercises/>
+    </div>
+    </>
+  );
 };
 
 export default Home;
