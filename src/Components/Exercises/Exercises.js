@@ -7,26 +7,32 @@ import { getNotes } from "../../redux/action/actExercises";
 
 const Exercises = () => {
   const day = new Date();
-  const [notes, setNotes] = useState(null);    
+  const [object, setObject] = useState(null);
+  const [notes, setNotes] = useState([]);
   useEffect(() => {
     getNotes(
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MWY3MTUyMDU4YjA2MzEwYjg0OGFkN2IiLCJpYXQiOjE2NjE4MTM4NjksImV4cCI6MTY2MTgyODI2OX0.QRYhcEAhF0u7ZHa4UJf62MqGXAHfLqg2_Iu1qQV1BzE").then((data) =>{
-        setNotes(data);        
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MWY3MTUyMDU4YjA2MzEwYjg0OGFkN2IiLCJpYXQiOjE2NjE4MjI1NTIsImV4cCI6MTY2MTgzNjk1Mn0.0ftRx2I29iVvZPOtcYK-N-6Wy7lWqr_TThfUV40jsBU").then((data) => {
+        setNotes(data);
+        console.log(data);
       }
-    )
-  }, [notes]);
+      )
+  }, []);
 
   const [show, setShow] = useState(false);
-  const handleShow = () => {
-    setShow(true);    
-  };
+
+  const handleShow = (uid = "") => {
+    if(uid != ""){
+      setObject(notes.find(element => element.uid == uid));
+    }
+    setShow(true);
+  }  
   const handleClose = () => {
-    setShow(false);    
-  };  
+    setShow(false);
+  };
   return (
     <>
       <div className="flex flex-col justify-center items-center p-3 text-white">
-        <Navbar/>
+        <Navbar />
         <div className="flex flex-row">
           <h1 className="text-2xl font-mono">Ejercicios</h1>
         </div>
@@ -37,7 +43,7 @@ const Exercises = () => {
         </div>
       </div>
       <div className="flex flex-row flex-wrap justify-center font-sans">
-        {notes != null ? (
+        {notes != [] ? (
           notes.map((note, i) => {
             return (
               <Card
@@ -46,6 +52,7 @@ const Exercises = () => {
                 date={note.date}
                 kg={note.weight}
                 repetitions={note.repetitions}
+                actionEddit={() => handleShow(note.uid)}
               />
             );
           })
@@ -54,7 +61,7 @@ const Exercises = () => {
             exercise={"Press Banca"}
             date={"2022-04-20"}
             kg={20}
-            repetitions={10}
+            repetitions={10}            
           />
         )}
       </div>
@@ -64,11 +71,11 @@ const Exercises = () => {
           onClick={handleShow}
         >
           Nuevo Registro
-        </button>        
-      </div>      
+        </button>
+      </div>
       <Modal show={show}>
-        <Form handleClose={handleClose} />
-      </Modal>        
+        <Form handleClose={handleClose} objectNote={object} show = {show}/>
+      </Modal>
     </>
   );
 };

@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm } from "../../hooks/useForm";
-import { addNote } from "../../redux/action/actExercises";
+import { addNote, editNote } from "../../redux/action/actExercises";
 
-const Form = ({ handleClose }) => {
-  const [ formValues, handleFormValues ] = useForm({
-    exercise: "",
-    weight: "",
-    repetitions: "",
+const Form = ({ handleClose, objectNote = null, show = false }) => {
+  console.log(objectNote);
+  const [formValues, handleFormValues] = useForm({
+    exercise: objectNote ? objectNote.exercise : "",
+    weight: objectNote ? objectNote.weight : "",
+    repetitions: objectNote ? objectNote.repetitions : null,
     note: ""
-  })
-  const handleSubmit = async( event ) => {    
+  })      
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    await addNote("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MWY3MTUyMDU4YjA2MzEwYjg0OGFkN2IiLCJpYXQiOjE2NjE4MTM4NjksImV4cCI6MTY2MTgyODI2OX0.QRYhcEAhF0u7ZHa4UJf62MqGXAHfLqg2_Iu1qQV1BzE", formValues).then(() => console.log('Si jaló'))
+    console.log(formValues);
+    objectNote ==null ? 
+    (await addNote("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MWY3MTUyMDU4YjA2MzEwYjg0OGFkN2IiLCJpYXQiOjE2NjE4MjI1NTIsImV4cCI6MTY2MTgzNjk1Mn0.0ftRx2I29iVvZPOtcYK-N-6Wy7lWqr_TThfUV40jsBU", formValues).then(() => console.log('Si jaló')))
+    :
+    (await editNote("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MWY3MTUyMDU4YjA2MzEwYjg0OGFkN2IiLCJpYXQiOjE2NjE4MjI1NTIsImV4cCI6MTY2MTgzNjk1Mn0.0ftRx2I29iVvZPOtcYK-N-6Wy7lWqr_TThfUV40jsBU", formValues).then(() => console.log("edita")))
   }
   return (
     <>
@@ -49,7 +55,7 @@ const Form = ({ handleClose }) => {
               <h3 className="mb-4 text-xl font-medium text-white">
                 Nueva Nota
               </h3>
-              <form className="space-y-6" onSubmit={ handleSubmit }>
+              <form className="space-y-6" onSubmit={handleSubmit}>
                 <div>
                   <label
                     htmlFor="ejercicio"
@@ -64,7 +70,8 @@ const Form = ({ handleClose }) => {
                     className="border bg-gray-600 border-gray-500 text-white text-sm placeholder-gray-400 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     placeholder="Yeah Buddy"
                     required
-                    onChange={ handleFormValues }
+                    onChange={handleFormValues}
+                    defaultValue= { objectNote ? objectNote.exercise : ""}
                   />
                 </div>
                 <div>
@@ -81,7 +88,8 @@ const Form = ({ handleClose }) => {
                     placeholder="Light Weight Baby"
                     className="bg-gray-600 border border-gray-500 placeholder-gray-400 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     required
-                    onChange={ handleFormValues }
+                    onChange={handleFormValues}
+                    defaultValue= { objectNote ? objectNote.weight : null}
                   />
                 </div>
                 <div>
@@ -98,7 +106,8 @@ const Form = ({ handleClose }) => {
                     placeholder="De tu mejor serie o en promedio"
                     className="bg-gray-600 border border-gray-500 placeholder-gray-400 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     required
-                    onChange={ handleFormValues }
+                    onChange={handleFormValues}                    
+                    value= {formValues.repetitions}
                   />
                 </div>
                 <div>
@@ -115,14 +124,15 @@ const Form = ({ handleClose }) => {
                     placeholder="Con/sin faja, etc"
                     className="bg-gray-600 border border-gray-500 placeholder-gray-400 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     required
-                    onChange={ handleFormValues }
+                    onChange={handleFormValues}
+                    defaultValue= { objectNote ? objectNote.note : ""}
                   />
                 </div>
                 <button
                   type="submit"
                   className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
-                  Guardar
+                  {objectNote ? "Editar" : "Guardar" }
                 </button>
               </form>
             </div>
