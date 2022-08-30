@@ -3,7 +3,7 @@ import Card from "../Card/Card";
 import Navbar from "../Navs/Navbar";
 import Modal from "./Modal";
 import Form from "./Form";
-import { getNotes } from "../../action/actExercises";
+import { getNotes } from "../../redux/action/actExercises";
 
 const Exercises = () => {
   const day = new Date();

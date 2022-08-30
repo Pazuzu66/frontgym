@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Swal from "sweetalert2";
-import { authUser } from "../../action/actUser";
+import { authUser } from "../../redux/action/actUser";
 import { useForm } from "../../hooks/useForm";
+import { useSelector } from "react-redux";
 
 const Login = () => {
   const [formValues, handleFormValues] = useForm({
@@ -33,6 +34,12 @@ const Login = () => {
       }
     });
   }
+  const state = useSelector(store => store)
+  useEffect(() => {
+    console.log('>>>Lol');
+    console.log(state);
+  }, [])
+  
   return (
     <>
       <div className="flex justify-center items-center h-screen bg-black text-white">
