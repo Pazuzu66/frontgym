@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useForm } from "../../hooks/useForm";
-import { addNote } from "../../action/actExercises";
+import { addNote } from "../../redux/action/actExercises";
 
 const Form = ({ handleClose }) => {
   const [ formValues, handleFormValues ] = useForm({

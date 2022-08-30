@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "../Home/Home";
 import Login from "../Login/Login";
 import Exercises from "../Exercises/Exercises";
-const RouterComponent = () => {
+export const RouterComponent = () => {
 	return (
 		<BrowserRouter>
 			<Routes>
@@ -15,5 +15,3 @@ const RouterComponent = () => {
 		</BrowserRouter>
 	);
 };
-
-export default RouterComponent;
