@@ -1,44 +1,25 @@
-import React, { useEffect } from "react";
-import Swal from "sweetalert2";
-import { authUser } from "../../redux/action/actUser";
+import React from "react";
+import { handleLogin } from "../../redux/action/actUser";
 import { useForm } from "../../hooks/useForm";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from 'react-router-dom'
+
+const formInitialState = {
+  username: "",
+  password: ""
+}
 
 const Login = () => {
-  const [formValues, handleFormValues] = useForm({
-    username: "",
-    password: ""
-  });
-  const HandleSubmit = async (event) => {
+  const [formValues, handleFormValues, reset] = useForm(formInitialState);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const HandleSubmit = (event) => {
     event.preventDefault();
-    await authUser(formValues).then((response) => {
-      if (response.status != 200) {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Usuario y/o contraseña Incorrecta",
-          timer: 1300,
-          showConfirmButton: false
-        })
-      } else {
-        //Aquí tendría el token y debo guardarlo en Redux o en el localStorage
-        const token = response.data.token
-        //---------------------------------------------------------------------
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Bienvenido",
-          timer: 1000,
-          showConfirmButton: false
-        })
-      }
-    });
+    dispatch(handleLogin(formValues.username, formValues.password, navigate))
+    reset()
   }
-  const state = useSelector(store => store)
-  useEffect(() => {
-    console.log('>>>Lol');
-    console.log(state);
-  }, [])
+  const {isAuthenticated, isLoading} = useSelector(store => store.auth)
+  
   
   return (
     <>
@@ -58,6 +39,9 @@ const Login = () => {
                   type="text"
                   name="username"
                   required
+                  value={formValues.username}
+                  disabled={isLoading && true}
+                  autoComplete='off'
                   onChange={handleFormValues}
                 />
                 <label htmlFor="password">Password</label>
@@ -67,8 +51,10 @@ const Login = () => {
                   placeholder="**********"
                   type="password"
                   name="password"
-                  autoComplete="on"
+                  autoComplete="off"
                   required
+                  value={formValues.password}
+                  disabled={isLoading && true}
                   onChange={handleFormValues}
                 />
               </div>
@@ -76,8 +62,9 @@ const Login = () => {
                 <button
                   type="submit"
                   className="bg-purple-700 rounded-full hover:bg-blue-600 w-60 h-auto"
+                  disabled={isLoading && true}
                 >
-                  Login
+                  {isLoading ? 'Login in' : 'Login'}
                 </button>
               </div>
             </form>
