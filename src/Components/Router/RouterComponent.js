@@ -1,17 +1,23 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Home from "../Home/Home";
-import Login from "../Login/Login";
-import Exercises from "../Exercises/Exercises";
+import React, { useEffect } from "react";
+import { BrowserRouter } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { PrivateRoutes } from "./PrivateRoutes";
+import { PublicRoutes } from "./PublicRoutes";
+import { checkToken } from "../../redux/action/actUser";
 export const RouterComponent = () => {
+	const {isAuthenticated} = useSelector(store => store.auth)
+	const dispatch = useDispatch()
+	useEffect(() => {
+	  dispatch(checkToken())
+	}, [])
+	
 	return (
 		<BrowserRouter>
-			<Routes>
-				<Route path="/login" element={ <Login /> }></Route>
-				<Route path="home" element={ <Home /> }> </Route>
-				<Route path="exercise" element={ <Exercises /> }> </Route> 				
-				<Route path="*" element={ <Navigate replace={true} to={"/login"}/>}></Route>
-			</Routes>
+			{isAuthenticated ? (
+				<PrivateRoutes />
+			) : (
+				<PublicRoutes />
+			)}
 		</BrowserRouter>
 	);
 };

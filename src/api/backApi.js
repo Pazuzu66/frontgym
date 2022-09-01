@@ -5,8 +5,7 @@ import axios from 'axios';
  * I ALSO DESIDE TO USE THE POSTS DATA, BECAUSE FIND IT MORE FUNNY
  */
 
-export const todoApi = axios.create({
-//   baseURL: 'https://jsonplaceholder.typicode.com/todos',
+export const backApi = axios.create({
   baseURL: process.env.REACT_APP_URL,
   headers: {
     'Access-Control-Allow-Origin': '*',
