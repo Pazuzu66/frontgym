@@ -51,17 +51,58 @@ export const addNote = async (token = "", objectNote = {}) => {
 
 //Edit note
 export const editNote = async (token = "", objectNote = {}) => {
+  try {    
+    const { uid, exercise, date, weight, repetitions, note } = objectNote;    
+    console.log(objectNote);
+    const response = await axios.put(`/exercises/progress/${uid}`, {      
+      exercise: exercise,
+      weight: weight,
+      repetitions: repetitions,
+      note: note
+    },{
+      headers:{
+        jtoken:token
+      }
+    });
+    console.log(response);
+  } catch (error) {
+    console.log(error.response);
+  }
+}
+//Delete note
+export const deleteNote =  (token = "", uid = "") => {
   try {
-    console.log('ola');
-    // const { uid, exercise, date, weight, repetitions, note } = objectNote;
-    // const response = await axios.put(`/exercises/progress/${uid}`, {
-    //   date: date,
-    //   exercise: exercise,
-    //   weight: weight,
-    //   repetitions: repetitions,
-    //   note: note
-    // });
-    // return response;
+    Swal.fire({
+      title:"¿Estás Seguro?",
+      text: "Esta acción no se puede revertir!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Borrar!'
+    }).then( async (result) => {
+      if(result.isConfirmed){
+        try {
+          await axios.delete(`/exercises/progress/${uid}`,{
+            headers:{
+              jtoken: token
+            }
+          }).then((response) => {
+            Swal.fire(
+              'Eliminado!',
+              'Nota Eliminada.',
+              'success'
+            )
+          })
+        } catch (error) {
+          Swal.fire(
+            'Error!',
+            'No se pudo eliminar!',
+            'danger'
+          )       
+        }    
+      }
+    });    
   } catch (error) {
     return error.response;
   }

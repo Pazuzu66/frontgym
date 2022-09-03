@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-const Card = ({ exercise = "", date, kg = 0, repetitions = 0, actionEddit }) => {
+const Card = ({ exercise = "", date, kg = 0, repetitions = 0, note = null, actionEddit, actionDelete }) => {
   return (
     <>
       <div className="px-2 py-2 text-white w-44">
@@ -16,8 +17,17 @@ const Card = ({ exercise = "", date, kg = 0, repetitions = 0, actionEddit }) => 
             <div className="flex flex-row">
               <label>Reps: {repetitions} </label>
             </div>
-            <div className="flex flex-row-reverse">
-              <EditIcon fontSize="small" onClick={actionEddit}/>
+            {note
+              ?
+              <div className="flex flex-row">
+                <label>Nota: {note} </label>
+              </div>
+              :
+              null
+            }
+            <div className="flex flex-row justify-between">
+              <EditIcon fontSize="small" onClick={actionEddit} />
+              <DeleteIcon fontSize="small" onClick={actionDelete} />
             </div>
           </div>
         </div>
@@ -33,4 +43,6 @@ Card.propTypes = {
   date: PropTypes.string.isRequired,
   kg: PropTypes.number.isRequired,
   repetitions: PropTypes.number.isRequired,
+  actionEddit: PropTypes.func.isRequired,
+  actionDelete: PropTypes.func.isRequired
 };

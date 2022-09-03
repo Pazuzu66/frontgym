@@ -4,21 +4,29 @@ import { useForm } from "../../hooks/useForm";
 import { addNote, editNote } from "../../redux/action/actExercises";
 
 const Form = ({ handleClose, objectNote = null, show = false }) => {
-  console.log(objectNote);
-  const [formValues, handleFormValues] = useForm({
-    exercise: objectNote ? objectNote.exercise : "",
-    weight: objectNote ? objectNote.weight : "",
-    repetitions: objectNote ? objectNote.repetitions : null,
+  const [formValues, handleFormValues,, changeByObject] = useForm(
+    {
+    exercise:"",
+    weight:"",
+    repetitions: null,
     note: ""
-  })      
-
+  })
+  useEffect(() => {
+    console.log("ola");
+    if(objectNote != null){      
+      changeByObject(objectNote)           
+    }     
+  }, [objectNote])  
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log(formValues);
-    objectNote ==null ? 
-    (await addNote("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MWY3MTUyMDU4YjA2MzEwYjg0OGFkN2IiLCJpYXQiOjE2NjE4MjI1NTIsImV4cCI6MTY2MTgzNjk1Mn0.0ftRx2I29iVvZPOtcYK-N-6Wy7lWqr_TThfUV40jsBU", formValues).then(() => console.log('Si jaló')))
-    :
-    (await editNote("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MWY3MTUyMDU4YjA2MzEwYjg0OGFkN2IiLCJpYXQiOjE2NjE4MjI1NTIsImV4cCI6MTY2MTgzNjk1Mn0.0ftRx2I29iVvZPOtcYK-N-6Wy7lWqr_TThfUV40jsBU", formValues).then(() => console.log("edita")))
+    event.preventDefault();    
+    objectNote == null ?
+      (
+        await addNote("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MWY3MTUyMDU4YjA2MzEwYjg0OGFkN2IiLCJpYXQiOjE2NjIyMzk5OTQsImV4cCI6MTY2MjI1NDM5NH0.9PAHHl2VuAv-05pC0i2izZ4h_jc5tRke0ZMCiZpEzOI", formValues).then(() => console.log('Si jaló'))
+      )
+      :
+      (      
+       await editNote("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MWY3MTUyMDU4YjA2MzEwYjg0OGFkN2IiLCJpYXQiOjE2NjIyMzk5OTQsImV4cCI6MTY2MjI1NDM5NH0.9PAHHl2VuAv-05pC0i2izZ4h_jc5tRke0ZMCiZpEzOI", formValues).then(() => console.log("edita"))
+      )
   }
   return (
     <>
@@ -70,8 +78,8 @@ const Form = ({ handleClose, objectNote = null, show = false }) => {
                     className="border bg-gray-600 border-gray-500 text-white text-sm placeholder-gray-400 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     placeholder="Yeah Buddy"
                     required
-                    onChange={handleFormValues}
-                    defaultValue= { objectNote ? objectNote.exercise : ""}
+                    onChange={handleFormValues}                    
+                    defaultValue= {objectNote ? objectNote.exercise : ""}
                   />
                 </div>
                 <div>
@@ -89,7 +97,7 @@ const Form = ({ handleClose, objectNote = null, show = false }) => {
                     className="bg-gray-600 border border-gray-500 placeholder-gray-400 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     required
                     onChange={handleFormValues}
-                    defaultValue= { objectNote ? objectNote.weight : null}
+                    defaultValue={objectNote ? objectNote.weight : null}
                   />
                 </div>
                 <div>
@@ -106,8 +114,8 @@ const Form = ({ handleClose, objectNote = null, show = false }) => {
                     placeholder="De tu mejor serie o en promedio"
                     className="bg-gray-600 border border-gray-500 placeholder-gray-400 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     required
-                    onChange={handleFormValues}                    
-                    value= {formValues.repetitions}
+                    onChange={handleFormValues}
+                    defaultValue={objectNote ? objectNote.repetitions : null}
                   />
                 </div>
                 <div>
@@ -125,14 +133,14 @@ const Form = ({ handleClose, objectNote = null, show = false }) => {
                     className="bg-gray-600 border border-gray-500 placeholder-gray-400 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     required
                     onChange={handleFormValues}
-                    defaultValue= { objectNote ? objectNote.note : ""}
+                    defaultValue={objectNote ? objectNote.note : ""}
                   />
                 </div>
                 <button
                   type="submit"
                   className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
-                  {objectNote ? "Editar" : "Guardar" }
+                  {objectNote ? "Editar" : "Guardar"}
                 </button>
               </form>
             </div>

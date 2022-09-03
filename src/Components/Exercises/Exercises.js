@@ -3,7 +3,7 @@ import Card from "../Card/Card";
 import Navbar from "../Navs/Navbar";
 import Modal from "./Modal";
 import Form from "./Form";
-import { getNotes } from "../../redux/action/actExercises";
+import { getNotes,deleteNote } from "../../redux/action/actExercises";
 
 const Exercises = () => {
   const day = new Date();
@@ -11,24 +11,25 @@ const Exercises = () => {
   const [notes, setNotes] = useState([]);
   useEffect(() => {
     getNotes(
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MWY3MTUyMDU4YjA2MzEwYjg0OGFkN2IiLCJpYXQiOjE2NjE4MjI1NTIsImV4cCI6MTY2MTgzNjk1Mn0.0ftRx2I29iVvZPOtcYK-N-6Wy7lWqr_TThfUV40jsBU").then((data) => {
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MWY3MTUyMDU4YjA2MzEwYjg0OGFkN2IiLCJpYXQiOjE2NjIyMzk5OTQsImV4cCI6MTY2MjI1NDM5NH0.9PAHHl2VuAv-05pC0i2izZ4h_jc5tRke0ZMCiZpEzOI").then((data) => {
         setNotes(data);
-        console.log(data);
+        console.log(data);     
       }
       )
   }, []);
-
   const [show, setShow] = useState(false);
-
   const handleShow = (uid = "") => {
     if(uid != ""){
-      setObject(notes.find(element => element.uid == uid));
+      setObject(notes.find(element => element.uid == uid));      
+      setShow(true);
     }
-    setShow(true);
   }  
   const handleClose = () => {
     setShow(false);
   };
+  const handleDelete = (uid = "") => {    
+    deleteNote("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MWY3MTUyMDU4YjA2MzEwYjg0OGFkN2IiLCJpYXQiOjE2NjIyMzk5OTQsImV4cCI6MTY2MjI1NDM5NH0.9PAHHl2VuAv-05pC0i2izZ4h_jc5tRke0ZMCiZpEzOI",uid)
+  }
   return (
     <>
       <div className="flex flex-col justify-center items-center p-3 text-white">
@@ -50,9 +51,11 @@ const Exercises = () => {
                 key={i}
                 exercise={note.exercise}
                 date={note.date}
-                kg={note.weight}
+                kg={note.weight}                
+                note={note.note}
                 repetitions={note.repetitions}
                 actionEddit={() => handleShow(note.uid)}
+                actionDelete={()=> handleDelete(note.uid)}
               />
             );
           })
