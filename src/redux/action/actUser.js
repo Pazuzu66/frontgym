@@ -11,7 +11,7 @@ export const handleLogin = (username, password, navigate) => {
                 password
             })
             localStorage.setItem('auth-token', data.token)
-            await dispatch(dispatchLogin())
+            await dispatch(dispatchLogin(data.token))
             Swal.fire({
                 position: "center",
                 icon: "success",
@@ -72,9 +72,9 @@ export const checkToken = () => {
     }
 }
 
-const dispatchLogin = () => ({
+const dispatchLogin = (token ="") => ({
     type: types.handleLogin,
-    payload: {}
+    payload: {token:token}
 })
 
 const dispatchLogout = () => ({

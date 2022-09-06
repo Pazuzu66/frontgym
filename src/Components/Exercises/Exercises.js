@@ -3,32 +3,34 @@ import Card from "../Card/Card";
 import Navbar from "../Navs/Navbar";
 import Modal from "./Modal";
 import Form from "./Form";
-import { getNotes,deleteNote } from "../../redux/action/actExercises";
+import { getNotes, deleteNote } from "../../redux/action/actExercises";
+import { useDispatch, useSelector } from "react-redux";
 
 const Exercises = () => {
+  const dispatch = useDispatch();
+  const { token } = useSelector(state => state.auth)  
   const day = new Date();
   const [object, setObject] = useState(null);
   const [notes, setNotes] = useState([]);
   useEffect(() => {
     getNotes(
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MWY3MTUyMDU4YjA2MzEwYjg0OGFkN2IiLCJpYXQiOjE2NjIyMzk5OTQsImV4cCI6MTY2MjI1NDM5NH0.9PAHHl2VuAv-05pC0i2izZ4h_jc5tRke0ZMCiZpEzOI").then((data) => {
+      token).then((data) => {
         setNotes(data);
-        console.log(data);     
       }
       )
   }, []);
   const [show, setShow] = useState(false);
   const handleShow = (uid = "") => {
-    if(uid != ""){
-      setObject(notes.find(element => element.uid == uid));      
+    if (uid !== "") {
+      setObject(notes.find(element => element.uid === uid));
       setShow(true);
     }
-  }  
+  }
   const handleClose = () => {
     setShow(false);
   };
-  const handleDelete = (uid = "") => {    
-    deleteNote("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MWY3MTUyMDU4YjA2MzEwYjg0OGFkN2IiLCJpYXQiOjE2NjIyMzk5OTQsImV4cCI6MTY2MjI1NDM5NH0.9PAHHl2VuAv-05pC0i2izZ4h_jc5tRke0ZMCiZpEzOI",uid)
+  const handleDelete = (uid = "") => {
+    deleteNote(token, uid)
   }
   return (
     <>
@@ -44,18 +46,18 @@ const Exercises = () => {
         </div>
       </div>
       <div className="flex flex-row flex-wrap justify-center font-sans">
-        {notes != [] ? (
+        {notes !== [] ? (
           notes.map((note, i) => {
             return (
               <Card
                 key={i}
                 exercise={note.exercise}
                 date={note.date}
-                kg={note.weight}                
+                kg={note.weight}
                 note={note.note}
                 repetitions={note.repetitions}
                 actionEddit={() => handleShow(note.uid)}
-                actionDelete={()=> handleDelete(note.uid)}
+                actionDelete={() => handleDelete(note.uid)}
               />
             );
           })
@@ -64,7 +66,7 @@ const Exercises = () => {
             exercise={"Press Banca"}
             date={"2022-04-20"}
             kg={20}
-            repetitions={10}            
+            repetitions={10}
           />
         )}
       </div>
@@ -77,7 +79,7 @@ const Exercises = () => {
         </button>
       </div>
       <Modal show={show}>
-        <Form handleClose={handleClose} objectNote={object} show = {show}/>
+        <Form handleClose={handleClose} objectNote={object} show={show} />
       </Modal>
     </>
   );
