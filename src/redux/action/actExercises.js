@@ -52,8 +52,7 @@ export const addNote = async (token = "", objectNote = {}) => {
 //Edit note
 export const editNote = async (token = "", objectNote = {}) => {
   try {    
-    const { uid, exercise, date, weight, repetitions, note } = objectNote;    
-    console.log(objectNote);
+    const { uid, exercise, date, weight, repetitions, note } = objectNote;        
     const response = await axios.put(`/exercises/progress/${uid}`, {      
       exercise: exercise,
       weight: weight,
