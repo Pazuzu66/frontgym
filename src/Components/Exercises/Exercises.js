@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Exercises = () => {
   const dispatch = useDispatch();
-  const { token } = useSelector(state => state.auth)  
+  const token  = localStorage.getItem('auth-token')
   const day = new Date();
   const [object, setObject] = useState(null);
   const [notes, setNotes] = useState([]);

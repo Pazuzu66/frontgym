@@ -8,8 +8,7 @@ const initialState = {
 
 export const AuthReducer = (state = initialState, payload) => {
     switch (payload.type) {
-        case types.handleLogin:
-            console.log(payload);
+        case types.handleLogin:            
             return {                
                 ...state,
                 isAuthenticated: true,

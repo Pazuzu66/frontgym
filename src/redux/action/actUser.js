@@ -1,12 +1,17 @@
 import { backApi } from "../../api/backApi";
 import { types } from "../types/types";
 import Swal from "sweetalert2";
+import axios from "axios";
+
+axios.defaults.baseURL = process.env.REACT_APP_URL;
+axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.defaults.headers.put["Content-Type"] = "application/json";
 
 export const handleLogin = (username, password, navigate) => {
     return async dispatch => {
         await dispatch(startLogin())
         try {
-            const {data} = await backApi.post('auth/login', {
+            const { data } = await backApi.post('auth/login', {
                 username,
                 password
             })
@@ -19,7 +24,7 @@ export const handleLogin = (username, password, navigate) => {
                 timer: 1000,
                 showConfirmButton: false
             })
-            navigate('/home', {replace: true})
+            navigate('/home', { replace: true })
         } catch (error) {
             // console.log(error.response)
             if (error.response.data) {
@@ -61,20 +66,28 @@ export const handleLogout = () => {
 
 export const checkToken = () => {
     return async dispatch => {
-        await dispatch(startLogin())
+        // await dispatch(startLogin())
         const token = localStorage.getItem('auth-token')
         if (token !== null) {
-            await dispatch(dispatchLogin())
+            const response = await axios.post('auth/validate', {}, {
+                headers: {
+                    jtoken: token
+                }
+            });
+            if (response.data.error == true) {
+                await dispatch(dispatchLogout())
+            } else {
+                await dispatch(dispatchLogin())
+            }
         }
         setTimeout(async () => {
             await dispatch(finishLogin())
         }, 500);
     }
 }
-
-const dispatchLogin = (token ="") => ({
+const dispatchLogin = (token = "") => ({
     type: types.handleLogin,
-    payload: {token:token}
+    payload: { token: token }
 })
 
 const dispatchLogout = () => ({
