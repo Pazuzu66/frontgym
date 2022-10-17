@@ -126,6 +126,9 @@ module.exports = {
           800: '#44a5ce',
           900: '#2f8ab0',
         },
+      },
+      fontFamily: {
+        'integral': ['IntegralCF', 'sans-serif']
       }
     },
     fontFamily: {

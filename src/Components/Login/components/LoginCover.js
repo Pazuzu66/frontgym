@@ -15,8 +15,8 @@ export const LoginCover = () => {
         src={window.innerWidth < 426 ? Cover : CoverMd}
         className='w-full h-full object-cover object-bottom'
       />
-      <h1 className='absolute w-full uppercase font-bold text-4xl px-10 bottom-20 break-words'>
-        Bienvenida/o, <strong className=''>rookie!</strong>
+      <h1 className='absolute w-full uppercase font-normal font-integral text-4xl px-10 bottom-20 break-words'>
+        Bienvenida/o, <strong className='font-bold'>rookie!</strong>
       </h1>
     </motion.div>
   );

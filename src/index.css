@@ -3,6 +3,38 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+@font-face {
+  font-family: 'IntegralCF';
+  src: url("./assets/fonts/IntegralCF-Regular.otf") format('opentype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'IntegralCF';
+  src: url("./assets/fonts/IntegralCF-Medium.otf") format('opentype');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'IntegralCF';
+  src: url("./assets/fonts/IntegralCF-DemiBold.otf") format('opentype');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'IntegralCF';
+  src: url("./assets/fonts/IntegralCF-Bold.otf") format('opentype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'IntegralCF';
+  src: url("./assets/fonts/IntegralCF-ExtraBold.otf") format('opentype');
+  font-weight: 800;
+}
+@font-face {
+  font-family: 'IntegralCF';
+  src: url("./assets/fonts/IntegralCF-Heavy.otf") format('opentype');
+  font-weight: 900;
+}
+
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
