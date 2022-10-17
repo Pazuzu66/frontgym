@@ -1,74 +1,74 @@
-import React from "react";
-import { handleLogin } from "../../redux/action/actUser";
-import { useForm } from "../../hooks/useForm";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { handleLogin } from '../../redux/action/actUser';
+import {
+  LoginCover,
+  LoginInput,
+  LoginPasswordInput,
+  LoginSubmitButton,
+} from './components';
 
-const formInitialState = {
-  username: "",
-  password: ""
-}
+const formDefaultValues = {
+  username: '',
+  password: '',
+};
+
+const schema = yup.object().shape({
+  username: yup
+    .string()
+    .required('El usuario es requerido')
+    .min(3, 'Debe de tener al menos 3 caracteres'),
+  password: yup
+    .string()
+    .required('La contraseña es requerida')
+    .min(3, 'Debe de tener al menos 3 caracteres'),
+});
 
 const Login = () => {
-  const [formValues, handleFormValues, reset] = useForm(formInitialState);
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const HandleSubmit = (event) => {
-    event.preventDefault();
-    dispatch(handleLogin(formValues.username, formValues.password, navigate))
-    reset()
-  }
-  const {isAuthenticated, isLoading} = useSelector(store => store.auth)
-  
-  
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { control, handleSubmit } = useForm({
+    defaultValues: formDefaultValues,
+    resolver: yupResolver(schema),
+  });
+  const localSubmit = values => {
+    // alert(JSON.stringify(values))
+    dispatch(handleLogin(values.username, values.password, navigate));
+  };
+  const { isLoading } = useSelector(store => store.auth);
+
   return (
     <>
-      <div className="flex justify-center items-center h-screen bg-black text-white">
-        <div className="flex flex-col">
-          <div className="flex-row text-center text-4xl font-bold">
-            <h1>Login</h1>
-          </div>
-          <div className="flex text-2xl text-center my-5 ">
-            <form onSubmit={HandleSubmit}>
-              <div className="flex flex-col items-center space-y-5">
-                <label htmlFor="username">Username</label>
-                <input
-                  id="username"
-                  className="rounded-xl bg-black text-white border-2 border-blue-900 indent-3 shadow-md shadow-blue-900/50 hover:border-blue-600 hover:border-3 focus:border-blue-600 focus:border-4"
-                  placeholder="username..."
-                  type="text"
-                  name="username"
-                  required
-                  value={formValues.username}
-                  disabled={isLoading && true}
-                  autoComplete='off'
-                  onChange={handleFormValues}
-                />
-                <label htmlFor="password">Password</label>
-                <input
-                  id="password"
-                  className="rounded-xl bg-black text-white border-2 border-blue-900 indent-3 shadow-md shadow-blue-900/50 hover:border-blue-600 hover:border-3 focus:border-blue-600 focus:border-4"
-                  placeholder="**********"
-                  type="password"
-                  name="password"
-                  autoComplete="off"
-                  required
-                  value={formValues.password}
-                  disabled={isLoading && true}
-                  onChange={handleFormValues}
-                />
+      <div className='flex justify-center w-screen min-h-screen bg-themeDark-500 text-white relative lg:items-center'>
+        <div className='flex flex-col w-full lg:max-w-[40rem] border-indigo-500 lg:rounded-2xl lg:overflow-hidden lg:shadow-lg lg:shadow-themeTrueGray-500 pb-32 relative'>
+          <LoginCover />
+          <form
+            onSubmit={handleSubmit(localSubmit)}
+            className='flex flex-col w-full gap-4 px-8'>
+            <LoginInput
+              control={control}
+              name='username'
+              label='Usuario'
+              type='text'
+            />
+            <LoginPasswordInput
+              control={control}
+              name='password'
+              label='Contraseña'
+            />
+            <div className='flex justify-end px-4 cursor-pointer text-themePrimary-500 font-bold'>
+              <button type='button'>Olvidé mi contraseña</button>
+            </div>
+            <div className='absolute flex justify-center px-10 py-10 w-full left-0 right-0 bottom-0'>
+              <div className='flex w-full justify-end lg:max-w-[40rem]'>
+                <LoginSubmitButton isLoading={isLoading} onClick={handleSubmit(localSubmit)} />
               </div>
-              <div className="pt-10">
-                <button
-                  type="submit"
-                  className="bg-purple-700 rounded-full hover:bg-blue-600 w-60 h-auto"
-                  disabled={isLoading && true}
-                >
-                  {isLoading ? 'Login in' : 'Login'}
-                </button>
-              </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     </>
