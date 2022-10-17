@@ -13,6 +13,7 @@ export const getNotes = async (token) => {
         jtoken: token,
       },
     });
+    // eslint-disable-next-line
     data.map((note) => {
       const d = new Date(note.date);
       note.date = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
@@ -52,7 +53,7 @@ export const addNote = async (token = "", objectNote = {}) => {
 //Edit note
 export const editNote = async (token = "", objectNote = {}) => {
   try {    
-    const { uid, exercise, date, weight, repetitions, note } = objectNote;        
+    const { uid, exercise, weight, repetitions, note } = objectNote;        
     const response = await axios.put(`/exercises/progress/${uid}`, {      
       exercise: exercise,
       weight: weight,

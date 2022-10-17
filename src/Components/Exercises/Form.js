@@ -15,7 +15,7 @@ const Form = ({ handleClose, objectNote = null, show = false }) => {
     if (objectNote != null) {
       changeByObject(objectNote)
     }
-  }, [objectNote])
+  }, [objectNote, changeByObject])
   const handleSubmit = async (event) => {
     event.preventDefault();
     objectNote == null ?
