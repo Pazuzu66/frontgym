@@ -1,7 +1,7 @@
 import { types } from "../types/types";
 
 const initialState = {
-    isLoading: false,
+    isLoading: true,
     isAuthenticated: false,
     token: ""
 }

@@ -1,23 +1,13 @@
-import React, { useEffect } from "react";
-import { BrowserRouter } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { PrivateRoutes } from "./PrivateRoutes";
-import { PublicRoutes } from "./PublicRoutes";
-import { checkToken } from "../../redux/action/actUser";
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { AnimatedRoutes } from './AnimatedRoutes';
+
 export const RouterComponent = () => {
-	const {isAuthenticated} = useSelector(store => store.auth)
-	const dispatch = useDispatch()
-	useEffect(() => {
-	  dispatch(checkToken())
-	}, [])
-	
-	return (
-		<BrowserRouter>
-			{isAuthenticated ? (
-				<PrivateRoutes />
-			) : (
-				<PublicRoutes />
-			)}
-		</BrowserRouter>
-	);
+  return (
+    <BrowserRouter>
+      <div className='bg-themeDark-500'>
+        <AnimatedRoutes />
+      </div>
+    </BrowserRouter>
+  );
 };

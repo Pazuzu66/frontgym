@@ -4,10 +4,8 @@ import Navbar from "../Navs/Navbar";
 import Modal from "./Modal";
 import Form from "./Form";
 import { getNotes, deleteNote } from "../../redux/action/actExercises";
-import { useDispatch, useSelector } from "react-redux";
 
-const Exercises = () => {
-  const dispatch = useDispatch();
+export const Exercises = () => {
   const token  = localStorage.getItem('auth-token')
   const day = new Date();
   const [object, setObject] = useState(null);
@@ -18,7 +16,7 @@ const Exercises = () => {
         setNotes(data);
       }
       )
-  }, []);
+  }, [token]);
   const [show, setShow] = useState(false);
   const handleShow = (uid = "") => {
     if (uid !== "") {
@@ -84,4 +82,3 @@ const Exercises = () => {
     </>
   );
 };
-export default Exercises;
